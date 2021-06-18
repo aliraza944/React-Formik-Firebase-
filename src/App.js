@@ -4,16 +4,21 @@ import FormFormik from "./Components/Forms";
 import SignIn from "./Components/SignIn";
 import { auth } from "./Components/firebase";
 const handleAuth = async () => {
-  try {
-    const user = await auth.currentUser;
-    if (user !== null) {
-      console.log(user.email);
-    } else {
-      console.log("no user present");
-    }
-  } catch (error) {
-    if (error) console.log(error);
-  }
+  await auth.currentUser
+    .getIdTokenResult()
+    .then((idTokenResult) => {
+      // Confirm the user is an Admin.
+      if (!!idTokenResult.claims.isAdmin) {
+        // Show admin UI.
+        console.log("admin user");
+      } else {
+        // Show regular user UI.
+        console.log("something went wrong");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 const handleSignOut = async () => {
   try {

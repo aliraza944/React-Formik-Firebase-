@@ -26,7 +26,7 @@ const SignIn = (props) => {
         .signInWithEmailAndPassword(values.email, values.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          console.log(userCredential);
         })
         .catch((error) => {
           var errorCode = error.code;
